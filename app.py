@@ -5,6 +5,14 @@ import requests
 import os
 import gdown
 
+def download_pkl(file_id, filename):
+    if not os.path.exists(filename):
+        gdown.download(
+            f"https://drive.google.com/uc?id={file_id}",
+            filename,
+            quiet=False
+        )
+
 # ---------- GOOGLE DRIVE FILE IDS ----------
 FILES = {
     "similarity.pkl": "1vqzpkO_bwQUl5hM7bw8qfKEtDQ2ERjFM",
@@ -18,10 +26,11 @@ for file_name, file_id in FILES.items():
         url = f"https://drive.google.com/uc?id={file_id}"
         gdown.download(url, file_name, quiet=False, fuzzy=True)
 
-# ---------- LOAD DATA ----------
 movies_dict = pickle.load(open("movie_dict.pkl", "rb"))
 movies = pickle.load(open("movies.pkl", "rb"))
 similarity = pickle.load(open("similarity.pkl", "rb"))
+
+movies = pd.DataFrame(movies_dict)
 
 def fetch_poster(movie_id):
     url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key=8265bd1679663a7ea12ac168da84d2e8&language=en-US"
