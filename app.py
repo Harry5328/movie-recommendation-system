@@ -2,25 +2,23 @@ import streamlit as st
 import pickle
 import pandas as pd
 import requests
-
-import streamlit as st
-import pickle
-import pandas as pd
-import requests
 import os
 import gdown
 
+# ---------- GOOGLE DRIVE FILE IDS ----------
 FILES = {
     "similarity.pkl": "1vqzpkO_bwQUl5hM7bw8qfKEtDQ2ERjFM",
     "movie_dict.pkl": "1exbz0gOZWoFj8EiUuu_03V5Ebzsur0j_",
     "movies.pkl": "1-IS3DnbAX-AQr5uX-rK-R15gRbfP40FA"
 }
 
-for filename, file_id in FILES.items():
-    if not os.path.exists(filename):
+# ---------- DOWNLOAD FILES IF NOT PRESENT ----------
+for file_name, file_id in FILES.items():
+    if not os.path.exists(file_name):
         url = f"https://drive.google.com/uc?id={file_id}"
-        gdown.download(url, filename, quiet=False, fuzzy=True)
+        gdown.download(url, file_name, quiet=False, fuzzy=True)
 
+# ---------- LOAD DATA ----------
 movies_dict = pickle.load(open("movie_dict.pkl", "rb"))
 movies = pickle.load(open("movies.pkl", "rb"))
 similarity = pickle.load(open("similarity.pkl", "rb"))
