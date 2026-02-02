@@ -3,15 +3,27 @@ import pickle
 import pandas as pd
 import requests
 
+import streamlit as st
+import pickle
+import pandas as pd
+import requests
 import os
 import gdown
 
-FILE_ID = "1vqzpkO_bwQUl5hM7bw8qfKEtDQ2ERjFM"
-FILE_NAME = "similarity.pkl"
+FILES = {
+    "similarity.pkl": "1vqzpkO_bwQUl5hM7bw8qfKEtDQ2ERjFM",
+    "movie_dict.pkl": "1exbz0gOZWoFj8EiUuu_03V5Ebzsur0j_",
+    "movies.pkl": "1-IS3DnbAX-AQr5uX-rK-R15gRbfP40FA"
+}
 
-if not os.path.exists(FILE_NAME):
-    url = f"https://drive.google.com/uc?id={FILE_ID}&export=download"
-    gdown.download(url, FILE_NAME, quiet=False, fuzzy=True)
+for filename, file_id in FILES.items():
+    if not os.path.exists(filename):
+        url = f"https://drive.google.com/uc?id={file_id}"
+        gdown.download(url, filename, quiet=False, fuzzy=True)
+
+movies_dict = pickle.load(open("movie_dict.pkl", "rb"))
+movies = pickle.load(open("movies.pkl", "rb"))
+similarity = pickle.load(open("similarity.pkl", "rb"))
 
 def fetch_poster(movie_id):
     url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key=8265bd1679663a7ea12ac168da84d2e8&language=en-US"
