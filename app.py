@@ -3,6 +3,19 @@ import pickle
 import pandas as pd
 import requests
 
+import os
+import gdown
+
+FILE_ID = "1vqzpkO_bwQUl5hM7bw8qfKEtDQ2ERjFM"
+FILE_NAME = "similarity.pkl"
+
+if not os.path.exists(FILE_NAME):
+    gdown.download(
+        f"https://drive.google.com/uc?id={FILE_ID}",
+        FILE_NAME,
+        quiet=False
+    )
+
 def fetch_poster(movie_id):
     url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key=8265bd1679663a7ea12ac168da84d2e8&language=en-US"
     response = requests.get(url)
